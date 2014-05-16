@@ -7,15 +7,51 @@ import java.nio.file.Files;
 import java.nio.file.OpenOption;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-import static java.nio.file.Files.readAllLines;
+//https://code.google.com/codejam/contest/2974486/dashboard
 
 public class MagicTrick {
+    //Below is the second pass solution optimized for lines of code
+    public static void main(String[] args) throws IOException {
+        Scanner in = new Scanner(Paths.get("magictrick.input"));
+        int T = in.nextInt();
+        for (int testCase = 1; testCase <= T; testCase++) {
+
+            int rowNumber1 = in.nextInt()-1;
+            HashSet<Integer> set1 = new HashSet<>(), set2 = new HashSet<>();
+            for (int i = 0; i < 4; i++) { //Rows
+                for (int j = 0; j < 4; j++) { //Columns
+                    if(i==rowNumber1) set1.add(in.nextInt());
+                    else in.next();
+                }
+            }
+
+            int rowNumber2 = in.nextInt()-1;
+            for (int i = 0; i < 4; i++) { //Rows
+                for (int j = 0; j < 4; j++) { //Columns
+                    if(i==rowNumber2) set2.add(in.nextInt());
+                    else in.next();
+                }
+            }
+
+            set1.retainAll(set2);
+            String msg;
+            switch (set1.size()){
+                case 0: msg = "Volunteer cheated!";
+                    break;
+                case 1: msg = set1.iterator().next().toString();
+                    break;
+                default: msg = "Bad magician!";
+            }
+
+            System.out.println(String.format("Case #%d: %s", testCase, msg));
+        }
+    }
+
+
+    //Below is my original solution that worked.
     public Set<Integer> rowNumbers(int row, int[][] input)
     {
         return Arrays.stream(input[row-1]).boxed().collect(Collectors.toSet());
@@ -43,7 +79,7 @@ public class MagicTrick {
         return String.format("Case #%d: %s", caseNumber, msg);
     }
 
-    public static void main(String[] args) {
+    public static void mainOrig(String[] args) {
         try {
             MagicTrick magicTrick = new MagicTrick();
             BufferedWriter br = Files.newBufferedWriter(Paths.get("./magictrick.output"), Charset.defaultCharset(), new OpenOption[] {StandardOpenOption.CREATE});
