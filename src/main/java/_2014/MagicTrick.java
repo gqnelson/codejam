@@ -1,9 +1,12 @@
 package _2014;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.nio.file.OpenOption;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -43,6 +46,7 @@ public class MagicTrick {
     public static void main(String[] args) {
         try {
             MagicTrick magicTrick = new MagicTrick();
+            BufferedWriter br = Files.newBufferedWriter(Paths.get("./magictrick.output"), Charset.defaultCharset(), new OpenOption[] {StandardOpenOption.CREATE});
 
             List<String> lines = Files.readAllLines(Paths.get("magictrick.input"), Charset.defaultCharset());
             int numberOfTestCases = Integer.valueOf(lines.get(0));
@@ -54,9 +58,12 @@ public class MagicTrick {
                 int row2 = Integer.valueOf(lines.get(i + offset + 5));
                 int[][] input2 = getInput((i + offset + 6), lines);
 
-                System.out.println(magicTrick.magicTrick(i, row1, input1, row2, input2));
+                br.write(magicTrick.magicTrick(i, row1, input1, row2, input2));
+                br.write("\n");
                 offset += 9;
             }
+            br.flush();
+            br.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
