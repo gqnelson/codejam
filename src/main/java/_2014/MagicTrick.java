@@ -37,6 +37,7 @@ public class MagicTrick {
             }
 
             set1.retainAll(set2);
+
             String msg;
             switch (set1.size()){
                 case 0: msg = "Volunteer cheated!";
