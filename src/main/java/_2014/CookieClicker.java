@@ -1,5 +1,9 @@
 package _2014;
 
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.Scanner;
+
 public class CookieClicker {
     //C = number of cookies to purchase a Farm
     double C;
@@ -22,10 +26,21 @@ public class CookieClicker {
         if (elapsedTime > maxElapsedTime) return elapsedTime;
 
         double noFarmElapsedTime = X/cookiesPerSec + elapsedTime;
-        System.out.println(String.format("noFarmElapsedTime %f, cookiesPerSec %f, elapsedTime %f, maxElapsedTime %f", noFarmElapsedTime, cookiesPerSec, elapsedTime, maxElapsedTime));
 
         double nextFarmElapsedTime = clickerAlpha(cookiesPerSec+F, elapsedTime + C/cookiesPerSec, noFarmElapsedTime<maxElapsedTime?noFarmElapsedTime:maxElapsedTime);
 
         return noFarmElapsedTime < nextFarmElapsedTime ? noFarmElapsedTime : nextFarmElapsedTime;
+    }
+
+    public static void main(String[] args) throws IOException {
+        Scanner in = new Scanner(Paths.get("cookieclicker.input"));
+        int T = in.nextInt();
+        for (int testCase = 1; testCase <= T; testCase++) {
+            double C = in.nextDouble();
+            double F = in.nextDouble();
+            double X = in.nextDouble();
+            CookieClicker cc = new CookieClicker(C, F, X);
+            System.out.println(String.format("Case #%d: %f", T, cc.clickerAlpha()));
+        }
     }
 }
