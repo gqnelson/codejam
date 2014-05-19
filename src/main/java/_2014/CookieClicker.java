@@ -40,7 +40,7 @@ public class CookieClicker {
             double F = in.nextDouble();
             double X = in.nextDouble();
             CookieClicker cc = new CookieClicker(C, F, X);
-            System.out.println(String.format("Case #%d: %f", T, cc.clickerAlpha()));
+            System.out.println(String.format("Case #%d: %f", testCase, cc.clickerAlpha()));
         }
     }
 }
