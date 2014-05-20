@@ -52,4 +52,57 @@ public class CookieClickerTest {
         Assert.assertEquals(cc.clickerAlpha(), 526.1904762, 0.0000001);
     }
 
+    @Test
+    public void testSampleInput5() {
+        CookieClicker cc = new CookieClicker(1.033970, 99.876140, 99999.032770);
+        Assert.assertEquals(cc.clickerAlpha(), 526.1904762, 0.0000001);
+    }
+
+    @Test
+    public void testCalculate() {
+        double C = 1.03397;
+        double F = 99.876140;
+        double X = 99999.032770;
+
+        double cookiesPerSec = 2;
+        double elapsedTime = 0.0;
+        double noFarmElapsedTime = elapsedTime;
+        double maxElapsedTime = X/cookiesPerSec;
+
+        int numberOfLoops = 1;
+        while (elapsedTime < maxElapsedTime) {
+            noFarmElapsedTime = X/cookiesPerSec + elapsedTime;
+            elapsedTime += C/cookiesPerSec;
+            cookiesPerSec += F;
+            System.out.println(String.format("# loops %d, noFarmElapsedTime %f, maxElapsedTime %f, elapsedTime %f, cookiesPerSec %f",
+                    numberOfLoops, noFarmElapsedTime, maxElapsedTime, elapsedTime, cookiesPerSec));
+            numberOfLoops++;
+        }
+
+    }
+
+    @Test
+    public void testDoublePointerB() {
+        int MAXFARMS = 1000000;
+
+        double c = 1.03397;
+        double f = 99.876140;
+        double x = 99999.032770;
+
+        int curFarms = 0;
+        double ans = 1e9;
+        double time = 0;
+        boolean done = false;
+
+        while(!done || curFarms < MAXFARMS) {
+            double tans = (x / (2 + f*curFarms)) + time;
+            System.out.printf("tans %f, curFarms %d, time %f\n", tans, curFarms, time);
+            if(tans <= ans) ans = tans;
+            else done = true;
+            time += c / (2 + f*curFarms);
+            curFarms++;
+        }
+        System.out.printf("Case #%d: %.7f%n", 5, ans+1e-9);
+    }
+
 }
